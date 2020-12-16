@@ -8,9 +8,9 @@ import java.util.Arrays;
 
 @SuppressWarnings("UnconstructableJUnitTestCase")
 @Ignore
-public class VectorMathTester {
+public class MathTester {
 
-    private final VectorMath math;
+    private final JMath math;
 
     protected final int SIZE = 4;
     protected final double EPSILON = 1e-10;
@@ -19,14 +19,14 @@ public class VectorMathTester {
     protected final Vector A;
     protected final Vector B;
 
-    public VectorMathTester(VectorMath math) {
+    public MathTester(JMath math) {
         this.math = math;
         A = math.vector(SIZE, a);
         B = math.vector(SIZE, b);
     }
 
-    public VectorMathTester() {
-        this(JMath.get().vec());
+    public MathTester() {
+        this(JMath.get());
     }
 
     private void assertAllEquals(double expected, Vector actual) {
@@ -56,42 +56,42 @@ public class VectorMathTester {
 
     @Test
     public void vecAddVec() {
-        assertAdd(math.add(A, B));
+        assertAdd(A.add(B));
     }
 
     @Test
     public void vecSubVec() {
-        assertSub(math.sub(A, B));
+        assertSub(A.sub(B));
     }
 
     @Test
     public void vecMulVec() {
-        assertMul(math.mul(A, B));
+        assertMul(A.mul(B));
     }
 
     @Test
     public void vecDivVec() {
-        assertDiv(math.div(A, B));
+        assertDiv(A.div(B));
     }
 
     @Test
     public void vecAddNum() {
-        assertAdd(math.add(A, b));
+        assertAdd(A.add(b));
     }
 
     @Test
     public void vecSubNum() {
-        assertSub(math.sub(A, b));
+        assertSub(A.sub(b));
     }
 
     @Test
     public void vecMulNum() {
-        assertMul(math.mul(A, b));
+        assertMul(A.mul(b));
     }
 
     @Test
     public void vecDivNum() {
-        assertDiv(math.div(A, b));
+        assertDiv(A.div(b));
     }
 
     @Test
@@ -121,22 +121,22 @@ public class VectorMathTester {
 
     @Test
     public void magnitude() {
-        Assert.assertEquals(Math.sqrt(a * a * A.size()), math.magnitude(A), EPSILON);
+        Assert.assertEquals(Math.sqrt(a * a * A.size()), A.magnitude(), EPSILON);
     }
 
     @Test
     public void magnitudeSq() {
-        Assert.assertEquals(a * a * A.size(), math.magnitudeSq(A), EPSILON);
+        Assert.assertEquals(a * a * A.size(), A.magnitudeSq(), EPSILON);
     }
 
     @Test
     public void magnitude2() {
-        Assert.assertEquals(Math.sqrt((a + b) * (a + b) * A.size()), math.magnitude(A.add(B)), EPSILON);
+        Assert.assertEquals(Math.sqrt((a + b) * (a + b) * A.size()), A.add(B).magnitude(), EPSILON);
     }
 
     @Test
     public void magnitudeSq2() {
-        Assert.assertEquals((a + b) * (a + b) * A.size(), math.magnitudeSq(A.add(B)), EPSILON);
+        Assert.assertEquals((a + b) * (a + b) * A.size(), A.add(B).magnitudeSq(), EPSILON);
     }
 
 }

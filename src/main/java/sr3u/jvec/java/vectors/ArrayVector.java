@@ -7,7 +7,7 @@ import sr3u.jvec.java.JavaVector;
 import java.util.Arrays;
 import java.util.stream.IntStream;
 
-public class ArrayVector implements JavaVector, CalculatedVector {
+public class ArrayVector extends JavaVector implements CalculatedVector {
 
     private final double[] array;
 
@@ -58,6 +58,11 @@ public class ArrayVector implements JavaVector, CalculatedVector {
     @Override
     public double sum() {
         return Arrays.stream(array).sum();
+    }
+
+    @Override
+    public ArrayVector newInstance(int size, Op op) {
+        return new ArrayVector(size, op);
     }
 
     private static double[] createArray(int size, Op op) {

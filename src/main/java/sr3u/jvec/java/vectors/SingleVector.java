@@ -6,7 +6,7 @@ import sr3u.jvec.java.JavaVector;
 
 import java.util.stream.IntStream;
 
-public class SingleVector implements JavaVector {
+public class SingleVector extends JavaVector {
     private final int size;
     private final double fill;
 
@@ -23,6 +23,11 @@ public class SingleVector implements JavaVector {
     @Override
     public double sum() {
         return size * fill;
+    }
+
+    @Override
+    public SingleVector newInstance(int size, Op op) {
+        return new SingleVector(size, op.apply(0));
     }
 
     @Override
