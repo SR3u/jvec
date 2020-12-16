@@ -1,30 +1,32 @@
 package sr3u.jvec;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.Arrays;
 
-public class VectorMathTest {
+@SuppressWarnings("UnconstructableJUnitTestCase")
+@Ignore
+public class VectorMathTester {
 
-    protected static final int SIZE = 4;
-    public static final double EPSILON = 1e-10;
-    private static final VectorMath math = VectorMath.get();
-    protected static final double a = 7;
-    protected static final double b = 3;
-    protected static final Vector A = getA();
-    protected static final Vector B = getB();
+    private final VectorMath math;
 
-    private static Vector getB() {
-        return getVector(b);
+    protected final int SIZE = 4;
+    protected final double EPSILON = 1e-10;
+    protected final double a = 7;
+    protected final double b = 3;
+    protected final Vector A;
+    protected final Vector B;
+
+    public VectorMathTester(VectorMath math) {
+        this.math = math;
+        A = math.vector(SIZE, a);
+        B = math.vector(SIZE, b);
     }
 
-    private static Vector getA() {
-        return getVector(a);
-    }
-
-    private static Vector getVector(double fill) {
-        return math.vector(SIZE, fill);
+    public VectorMathTester() {
+        this(VectorMath.get());
     }
 
     private void assertAllEquals(double expected, Vector actual) {
@@ -110,6 +112,11 @@ public class VectorMathTest {
     @Test
     public void numDivVec() {
         assertDiv(math.div(a, B));
+    }
+
+    @Test
+    public void sum() {
+        Assert.assertEquals(a * SIZE, A.sum(), EPSILON);
     }
 
 }
