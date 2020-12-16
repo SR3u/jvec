@@ -129,4 +129,14 @@ public class VectorMathTester {
         Assert.assertEquals(a * a * A.size(), math.magnitudeSq(A), EPSILON);
     }
 
+    @Test
+    public void magnitude2() {
+        Assert.assertEquals(Math.sqrt((a + b) * (a + b) * A.size()), math.magnitude(A.add(B)), EPSILON);
+    }
+
+    @Test
+    public void magnitudeSq2() {
+        Assert.assertEquals((a + b) * (a + b) * A.size(), math.magnitudeSq(A.add(B)), EPSILON);
+    }
+
 }
