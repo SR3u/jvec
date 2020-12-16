@@ -27,7 +27,7 @@ public class SingleVector extends JavaVector {
 
     @Override
     public SingleVector newInstance(int size, Op op) {
-        return new SingleVector(size, op.apply(0));
+        return new SingleVector(size, op.apply(0)); // As all items are equal, we are free to take only the first one
     }
 
     @Override

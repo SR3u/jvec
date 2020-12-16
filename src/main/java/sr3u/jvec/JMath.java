@@ -14,6 +14,14 @@ public abstract class JMath {
         return this.vectors;
     }
 
+    public Vectors vector() {
+        return vectors();
+    }
+
+    public Vectors vec() {
+        return vectors();
+    }
+
     public abstract Vector vector(double... array);
 
     public Vector vector(int size, double fill) {
