@@ -11,7 +11,7 @@ public class VectorMathHolder {
     }
 
     private static VectorMath create() {
-        return new JavaVectorMath();
+        return JavaVectorMath.get();
     }
 
 }

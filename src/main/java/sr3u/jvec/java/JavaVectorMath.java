@@ -2,16 +2,27 @@ package sr3u.jvec.java;
 
 import sr3u.jvec.Vector;
 import sr3u.jvec.VectorMath;
-
-import java.util.Arrays;
-import java.util.stream.IntStream;
+import sr3u.jvec.java.vectors.ArrayVector;
+import sr3u.jvec.java.vectors.SingleVector;
 
 public class JavaVectorMath implements VectorMath {
 
+    private static final ThreadLocal<JavaVectorMath> INSTANCE = ThreadLocal.withInitial(JavaVectorMath::new);
+
+    public static JavaVectorMath get() {
+        return INSTANCE.get();
+    }
+
     @Override
     public JavaVector vector(double... array) {
-        return new JavaVector(array);
+        return new ArrayVector(array);
     }
+
+    @Override
+    public Vector vector(int size, double fill) {
+        return new SingleVector(size, fill);
+    }
+
 
     @Override
     public JavaVector convert(Vector v) {
@@ -25,115 +36,84 @@ public class JavaVectorMath implements VectorMath {
     public Vector add(Vector a, Vector b) {
         JavaVector A = convert(a);
         JavaVector B = convert(b);
-        JavaVector r = createResultVector(A, B);
-        loop(r, (i) -> A.get(i) + B.get(i));
-        return r;
+        return new ArrayVector(resultVectorSize(A, B), (i) -> A.get(i) + B.get(i));
     }
 
     @Override
     public Vector sub(Vector a, Vector b) {
         JavaVector A = convert(a);
         JavaVector B = convert(b);
-        JavaVector r = createResultVector(A, B);
-        loop(r, (i) -> A.get(i) - B.get(i));
-        return r;
+        return new ArrayVector(resultVectorSize(A, B), (i) -> A.get(i) - B.get(i));
     }
 
     @Override
     public Vector add(Vector a, double b) {
         JavaVector A = convert(a);
-        JavaVector r = createResultVector(A);
-        loop(r, (i) -> A.get(i) + b);
-        return r;
+        return new ArrayVector(resultVectorSize(A), (i) -> A.get(i) + b);
     }
 
     @Override
     public Vector sub(Vector a, double b) {
         JavaVector A = convert(a);
-        JavaVector r = createResultVector(A);
-        loop(r, (i) -> A.get(i) - b);
-        return r;
+        return new ArrayVector(resultVectorSize(A), (i) -> A.get(i) - b);
     }
 
     @Override
     public Vector sub(double a, Vector b) {
         JavaVector B = convert(b);
-        JavaVector r = createResultVector(B);
-        loop(r, (i) -> a - B.get(i));
-        return r;
+        return new ArrayVector(resultVectorSize(B), (i) -> a - B.get(i));
     }
 
     @Override
     public Vector mul(Vector a, Vector b) {
         JavaVector A = convert(a);
         JavaVector B = convert(b);
-        JavaVector r = createResultVector(A, B);
-        loop(r, (i) -> A.get(i) * B.get(i));
-        return r;
+        return new ArrayVector(resultVectorSize(A, B), (i) -> A.get(i) * B.get(i));
     }
 
     @Override
     public Vector mul(Vector a, double b) {
         JavaVector A = convert(a);
-        JavaVector r = createResultVector(A);
-        loop(r, (i) -> A.get(i) * b);
-        return r;
+        return new ArrayVector(resultVectorSize(A), (i) -> A.get(i) * b);
     }
 
     @Override
     public Vector div(Vector a, Vector b) {
         JavaVector A = convert(a);
         JavaVector B = convert(b);
-        JavaVector r = createResultVector(A, B);
-        loop(r, (i) -> A.get(i) / B.get(i));
-        return r;
+        return new ArrayVector(resultVectorSize(A, B), (i) -> A.get(i) / B.get(i));
     }
 
     @Override
     public Vector div(double a, Vector b) {
         JavaVector B = convert(b);
-        JavaVector r = createResultVector(B);
-        loop(r, (i) -> a / B.get(i));
-        return r;
+        return new ArrayVector(resultVectorSize(B), (i) -> a / B.get(i));
     }
 
     @Override
     public Vector div(Vector a, double b) {
         JavaVector A = convert(a);
-        JavaVector r = createResultVector(A);
-        loop(r, (i) -> A.get(i) / b);
-        return r;
+        return new ArrayVector(resultVectorSize(A), (i) -> A.get(i) / b);
     }
 
     @Override
     public JavaVector exp(Vector a) {
         JavaVector A = convert(a);
-        JavaVector r = createResultVector(A);
-        loop(r, (i) -> Math.exp(A.get(i)));
-        return r;
+        return new ArrayVector(resultVectorSize(A), (i) -> Math.exp(A.get(i)));
     }
 
     @Override
     public double sum(Vector a) {
-        JavaVector A = convert(a);
-        return Arrays.stream(A.get()).sum();
+        return convert(a).sum();
     }
 
-    private JavaVector createResultVector(JavaVector a) {
-        return new JavaVector(a.size());
+    private int resultVectorSize(JavaVector a) {
+        return a.size();
     }
 
-    private void loop(JavaVector r, Op op) {
-        IntStream range = IntStream.range(0, r.size());
-        if (r.size() > 20000) {
-            range = range.parallel();
-        }
-        range.forEach(i -> r.set(i, op.apply(i)));
-    }
-
-    private JavaVector createResultVector(JavaVector a, JavaVector b) {
+    private int resultVectorSize(JavaVector a, JavaVector b) {
         assertEqualSize(a, b);
-        return createResultVector(a);
+        return resultVectorSize(a);
     }
 
     private void assertEqualSize(JavaVector a, JavaVector b) {
