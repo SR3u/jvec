@@ -5,10 +5,6 @@ import java.util.stream.IntStream;
 //Vectorized math interface
 public interface VectorMath {
 
-    static VectorMath get() {
-        return VectorMathHolder.get();
-    }
-
     Vector vector(double... array);
 
     default Vector vector(int size, double fill) {
@@ -18,6 +14,12 @@ public interface VectorMath {
     default Vector convert(Vector v) {
         return vector(v.calculate().data());
     }
+
+    default double magnitude(Vector v) {
+        return Math.sqrt(magnitudeSq(v));
+    }
+
+    double magnitudeSq(Vector v);
 
     Vector add(Vector a, Vector b); // returns Vector X: Xi = Ai + Bi
 

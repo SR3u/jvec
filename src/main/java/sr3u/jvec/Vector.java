@@ -11,51 +11,59 @@ public interface Vector extends Serializable {
 
     int size();
 
-    VectorMath math();
+    JMath math();
 
     // default methods
     default double sum() {
-        return math().sum(this);
+        return math().vec().sum(this);
     }
 
     default Vector add(Vector b) {
-        return math().add(this, b);
+        return math().vec().add(this, b);
     }
 
     default Vector sub(Vector b) {
-        return math().sub(this, b);
+        return math().vec().sub(this, b);
     }
 
     default Vector add(double b) {
-        return math().add(this, b);
+        return math().vec().add(this, b);
     }
 
     default Vector sub(double b) {
-        return math().add(this, b);
+        return math().vec().add(this, b);
     }
 
     default Vector mul(Vector b) {
-        return math().mul(this, b);
+        return math().vec().mul(this, b);
     }
 
     default Vector mul(double b) {
-        return math().mul(this, b);
+        return math().vec().mul(this, b);
     }
 
     default Vector div(Vector b) {
-        return math().div(this, b);
+        return math().vec().div(this, b);
     }
 
     default Vector div(double b) {
-        return math().div(this, b);
+        return math().vec().div(this, b);
     }
 
     default Vector exp() {
-        return math().exp(this);
+        return math().vec().exp(this);
     }
 
     default Vector sigmoid() {
-        return math().sigmoid(this);
+        return math().vec().sigmoid(this);
+    }
+
+    default double magnitude() {
+        return math().vec().magnitude(this);
+    }
+
+    default double magnitudeSq() {
+        return math().vec().magnitudeSq(this);
     }
 
 }

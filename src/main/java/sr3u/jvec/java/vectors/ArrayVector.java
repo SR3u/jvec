@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.stream.IntStream;
 
 public class ArrayVector implements JavaVector, CalculatedVector {
+
     private final double[] array;
 
     public ArrayVector(double[] array) {
@@ -67,6 +68,11 @@ public class ArrayVector implements JavaVector, CalculatedVector {
         }
         range.forEach(i -> array[i] = op.apply(i));
         return array;
+    }
+
+    @Override
+    public double magnitudeSq() {
+        return new ArrayVector(createArray(size(), i -> array[i] * array[i])).sum();
     }
 
 }

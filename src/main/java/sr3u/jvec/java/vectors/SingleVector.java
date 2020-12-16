@@ -26,6 +26,11 @@ public class SingleVector implements JavaVector {
     }
 
     @Override
+    public double magnitudeSq() {
+        return size * fill * fill;
+    }
+
+    @Override
     public CalculatedVector calculate() {
         return new ArrayVector(IntStream.range(0, size)
                 .mapToDouble(i -> fill)

@@ -7,12 +7,6 @@ import sr3u.jvec.java.vectors.SingleVector;
 
 public class JavaVectorMath implements VectorMath {
 
-    private static final ThreadLocal<JavaVectorMath> INSTANCE = ThreadLocal.withInitial(JavaVectorMath::new);
-
-    public static JavaVectorMath get() {
-        return INSTANCE.get();
-    }
-
     @Override
     public JavaVector vector(double... array) {
         return new ArrayVector(array);
@@ -30,6 +24,11 @@ public class JavaVectorMath implements VectorMath {
             return (JavaVector) v;
         }
         return vector(v.calculate().data());
+    }
+
+    @Override
+    public double magnitudeSq(Vector v) {
+        return convert(v).magnitudeSq();
     }
 
     @Override

@@ -26,7 +26,7 @@ public class VectorMathTester {
     }
 
     public VectorMathTester() {
-        this(VectorMath.get());
+        this(JMath.get().vec());
     }
 
     private void assertAllEquals(double expected, Vector actual) {
@@ -117,6 +117,16 @@ public class VectorMathTester {
     @Test
     public void sum() {
         Assert.assertEquals(a * SIZE, A.sum(), EPSILON);
+    }
+
+    @Test
+    public void magnitude() {
+        Assert.assertEquals(Math.sqrt(a * a * A.size()), math.magnitude(A), EPSILON);
+    }
+
+    @Test
+    public void magnitudeSq() {
+        Assert.assertEquals(a * a * A.size(), math.magnitudeSq(A), EPSILON);
     }
 
 }
