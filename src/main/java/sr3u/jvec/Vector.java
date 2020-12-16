@@ -66,4 +66,8 @@ public interface Vector extends Serializable {
         return math().vec().magnitudeSq(this);
     }
 
+    default Vector invert() {
+        return math().vec().invert(this);
+    }
+
 }

@@ -5,6 +5,14 @@ import java.util.stream.IntStream;
 //Vectorized math interface
 public interface VectorMath {
 
+    default Vector zeros(int size) {
+        return vector(size, 0.0);
+    }
+
+    default Vector ones(int size) {
+        return vector(size, 1.0);
+    }
+
     Vector vector(double... array);
 
     default Vector vector(int size, double fill) {
@@ -55,6 +63,10 @@ public interface VectorMath {
 
     default Vector sigmoid(Vector x) { // returns Vector Y: 1 / (1 + Math.exp(Xi))
         return div(1, add(1, exp(x)));
+    }
+
+    default Vector invert(Vector x) {
+        return div(1, x);
     }
 
 }

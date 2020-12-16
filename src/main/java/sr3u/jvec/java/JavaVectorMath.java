@@ -13,7 +13,7 @@ public class JavaVectorMath implements VectorMath {
     }
 
     @Override
-    public Vector vector(int size, double fill) {
+    public JavaVector vector(int size, double fill) {
         return new SingleVector(size, fill);
     }
 
@@ -32,65 +32,65 @@ public class JavaVectorMath implements VectorMath {
     }
 
     @Override
-    public Vector add(Vector a, Vector b) {
+    public JavaVector add(Vector a, Vector b) {
         JavaVector A = convert(a);
         JavaVector B = convert(b);
         return new ArrayVector(resultVectorSize(A, B), (i) -> A.get(i) + B.get(i));
     }
 
     @Override
-    public Vector sub(Vector a, Vector b) {
+    public JavaVector sub(Vector a, Vector b) {
         JavaVector A = convert(a);
         JavaVector B = convert(b);
         return new ArrayVector(resultVectorSize(A, B), (i) -> A.get(i) - B.get(i));
     }
 
     @Override
-    public Vector add(Vector a, double b) {
+    public JavaVector add(Vector a, double b) {
         JavaVector A = convert(a);
         return new ArrayVector(resultVectorSize(A), (i) -> A.get(i) + b);
     }
 
     @Override
-    public Vector sub(Vector a, double b) {
+    public JavaVector sub(Vector a, double b) {
         JavaVector A = convert(a);
         return new ArrayVector(resultVectorSize(A), (i) -> A.get(i) - b);
     }
 
     @Override
-    public Vector sub(double a, Vector b) {
+    public JavaVector sub(double a, Vector b) {
         JavaVector B = convert(b);
         return new ArrayVector(resultVectorSize(B), (i) -> a - B.get(i));
     }
 
     @Override
-    public Vector mul(Vector a, Vector b) {
+    public JavaVector mul(Vector a, Vector b) {
         JavaVector A = convert(a);
         JavaVector B = convert(b);
         return new ArrayVector(resultVectorSize(A, B), (i) -> A.get(i) * B.get(i));
     }
 
     @Override
-    public Vector mul(Vector a, double b) {
+    public JavaVector mul(Vector a, double b) {
         JavaVector A = convert(a);
         return new ArrayVector(resultVectorSize(A), (i) -> A.get(i) * b);
     }
 
     @Override
-    public Vector div(Vector a, Vector b) {
+    public JavaVector div(Vector a, Vector b) {
         JavaVector A = convert(a);
         JavaVector B = convert(b);
         return new ArrayVector(resultVectorSize(A, B), (i) -> A.get(i) / B.get(i));
     }
 
     @Override
-    public Vector div(double a, Vector b) {
+    public JavaVector div(double a, Vector b) {
         JavaVector B = convert(b);
         return new ArrayVector(resultVectorSize(B), (i) -> a / B.get(i));
     }
 
     @Override
-    public Vector div(Vector a, double b) {
+    public JavaVector div(Vector a, double b) {
         JavaVector A = convert(a);
         return new ArrayVector(resultVectorSize(A), (i) -> A.get(i) / b);
     }
