@@ -1,7 +1,6 @@
 package sr3u.jvec.java.vectors;
 
 import sr3u.jvec.CalculatedVector;
-import sr3u.jvec.Vector;
 import sr3u.jvec.java.JavaVector;
 
 import java.util.Arrays;
@@ -31,7 +30,7 @@ public class ArrayVector extends JavaVector implements CalculatedVector {
     }
 
     @Override
-    public Vector copy() {
+    public CalculatedVector copy() {
         return new ArrayVector(array);
     }
 

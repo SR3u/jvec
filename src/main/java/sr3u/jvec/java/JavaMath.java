@@ -1,7 +1,9 @@
 package sr3u.jvec.java;
 
 import sr3u.jvec.JMath;
+import sr3u.jvec.Matrix;
 import sr3u.jvec.Vector;
+import sr3u.jvec.java.matrices.ArrayMatrix;
 import sr3u.jvec.java.vectors.ArrayVector;
 import sr3u.jvec.java.vectors.SingleVector;
 
@@ -23,6 +25,19 @@ public class JavaMath extends JMath {
     @Override
     public JavaVector vector(int size, double fill) {
         return new SingleVector(size, fill);
+    }
+
+    @Override
+    public ArrayMatrix matrix(Matrix.Size size, double[] data) {
+        return new ArrayMatrix(size, data);
+    }
+
+    @Override
+    public JavaMatrix convert(Matrix v) {
+        if (v instanceof JavaMatrix) {
+            return (JavaMatrix) v;
+        }
+        return matrix(v.size(), v.calculate().data());
     }
 
 
