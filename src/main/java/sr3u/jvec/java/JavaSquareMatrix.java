@@ -3,6 +3,7 @@ package sr3u.jvec.java;
 import sr3u.jvec.CalculatedMatrix;
 import sr3u.jvec.SquareMatrix;
 import sr3u.jvec.java.matrices.Cop;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public class JavaSquareMatrix extends JavaMatrix implements SquareMatrix {
 
@@ -50,7 +51,29 @@ public class JavaSquareMatrix extends JavaMatrix implements SquareMatrix {
     @Override
     public SquareMatrix inverse() {
         final double det = det();
-        return matrixWithSameSize().loop((r, c) -> alcComp(c, r) / det);
+        //return matrixWithSameSize().loop((r, c) -> alcComp(c, r) / det);
+        throw new NotImplementedException();
+    }
+
+    @Override
+    public double determinant() {
+        JavaSquareMatrix tmpM = matrixWithSameSize().loop((Cop) this::get);
+        double tmp;
+        int N = size().columns();
+        for (int k = 0; k < N - 1; k++) {
+            for (int i = k + 1; i < N; i++) {
+                tmp = -tmpM.get(i, k) / tmpM.get(k, k);
+                for (int j = 0; j < N; j++) {
+                    tmpM.set(i, j, tmpM.get(k, j) * tmp);
+                    // a[i][j] += a[k][j] * tmp;
+                }
+            }
+        }
+        double d = 1;
+        for (int i = 0; i < N; i++) {
+            d *= tmpM.get(i, i);
+        }
+        return d;
     }
 
     private double alcComp(int c, int r) { // TODO
