@@ -16,6 +16,8 @@ public interface Matrix {
 
     Matrix mul(Matrix b);
 
+    Matrix mulScalar(Matrix b);
+
     Matrix div(Matrix b);
 
 
@@ -28,7 +30,7 @@ public interface Matrix {
     }
 
     default Matrix mul(double b) {
-        return mul(math().mat(size(), b));
+        return mulScalar(math().mat(size(), b));
     }
 
     default Matrix div(double b) {
@@ -49,6 +51,18 @@ public interface Matrix {
 
     Matrix invertColumns();
 
+    default void assertSizesForMul(Matrix other) {
+        if (this.size().columns() != other.size().rows()) {
+            throw new IllegalArgumentException("Invalid matrix sizes for multiplication " + this.size() + " * " + other.size());
+        }
+    }
+
+    default void assertSizesEqual(Matrix other) {
+        if (this.size().columns() != other.size().columns() &&
+                this.size().rows() != other.size().rows()) {
+            throw new IllegalArgumentException("Invalid matrix sizes " + this.size() + " and " + other.size());
+        }
+    }
 
     class Size {
         protected final int rows;
@@ -56,6 +70,14 @@ public interface Matrix {
 
         public Size(Size size) {
             this(size.rows, size.columns);
+        }
+
+        public Size(double... rowAndColumn) {
+            this((int) rowAndColumn[0], (int) rowAndColumn[1]);
+        }
+
+        public Size(Vector rowAndColumn) {
+            this(rowAndColumn.calculate().data());
         }
 
         public int rows() {

@@ -111,4 +111,7 @@ public abstract class JMath {
         return matrix(b.size(), a).div(b);
     }
 
+    public Vector vector(Matrix.Size size) {
+        return vector(size.rows(), size.columns());
+    }
 }

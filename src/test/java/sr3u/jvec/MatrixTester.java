@@ -31,27 +31,32 @@ public class MatrixTester {
         Bd = math.mat().diag(SIZE.rows, b).invertColumns();
     }
 
-
-    //@Test
-    public void print() {
-        System.out.println(Bd);
-    }
-
     @Test
     public void matrAddMatr() {
         Matrix r = Ad.add(Bd);
-        System.out.println(r);
-        assertAllEquals(r, a + b);
+        assertMiddleEquals(r, a + b);
     }
 
-    //@Test
+    @Test
     public void matrSubMatr() {
-        assertAllEquals(A.sub(b), a - b);
+        assertMiddleEquals(A.sub(B), a - b);
+    }
+
+    @Test
+    public void matrMulMatr() {
+        assertAllNonZeroEquals(Ad.mul(Bd), a * b);
     }
 
     private void assertAllEquals(Matrix m, double v) {
         Assert.assertTrue(Arrays.stream(m.calculate().data())
                 .allMatch(d -> doubleEquals(d, v)));
+    }
+
+    private void assertMiddleEquals(Matrix m, double expected) {
+        Matrix.Size size = new Matrix.Size(math.vector(m.size()).div(2));
+        double[][] doubles = m.calculate().data2d();
+        double actual = doubles[size.rows()][size.columns()];
+        Assert.assertEquals(expected, actual, EPSILON);
     }
 
     private void assertAllNonZeroEquals(Matrix m, double v) {

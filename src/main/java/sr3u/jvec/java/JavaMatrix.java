@@ -136,34 +136,54 @@ public abstract class JavaMatrix implements Matrix {
 
     @Override
     public Matrix add(Matrix b) {
+        assertSizesEqual(b);
         JavaMatrix B = math().convert(b);
-        return resultMatrix(this, b)
+        return resultMatrix(this, B)
                 .loop((r, c) -> get(r, c) + B.get(r, c));
     }
 
     @Override
     public Matrix sub(Matrix b) {
+        assertSizesEqual(b);
         JavaMatrix B = math().convert(b);
-        return resultMatrix(this, b)
+        return resultMatrix(this, B)
                 .loop((r, c) -> get(r, c) - B.get(r, c));
     }
 
     @Override
     public Matrix mul(Matrix b) {
+        assertSizesForMul(b);
         JavaMatrix B = math().convert(b);
-        return resultMatrix(this, b)
+        int columns = size().columns();
+        return resultMatrixMul(B)
+                .loop((Cop) (r, c) -> IntStream.range(0, columns)
+                        .mapToDouble(i -> get(r, i) * B.get(i, c))
+                        .sum());
+    }
+
+    @Override
+    public Matrix mulScalar(Matrix b) {
+        assertSizesEqual(b);
+        JavaMatrix B = math().convert(b);
+        return resultMatrix(this, B)
                 .loop((r, c) -> get(r, c) * B.get(r, c));
     }
 
     @Override
     public Matrix div(Matrix b) {
+        assertSizesEqual(b);
         JavaMatrix B = math().convert(b);
-        return resultMatrix(this, b)
+        return resultMatrix(this, B)
                 .loop((r, c) -> get(r, c) / B.get(r, c));
     }
 
-    private static JavaMatrix resultMatrix(JavaMatrix a, Matrix b) {
+    private static JavaMatrix resultMatrix(JavaMatrix a, JavaMatrix b) {
         return a.matrixWithSameSize();
+    }
+
+    protected JavaMatrix resultMatrixMul(JavaMatrix other) {
+        Size size = new Size(this.size().rows(), other.size().columns());
+        return math().matrix(size, new double[size.size()]);
     }
 
     protected abstract JavaMatrix matrixWithSameSize();
