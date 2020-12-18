@@ -51,8 +51,7 @@ public class JavaSquareMatrix extends JavaMatrix implements SquareMatrix {
     @Override
     public SquareMatrix inverse() {
         final double det = det();
-        //return matrixWithSameSize().loop((r, c) -> alcComp(c, r) / det);
-        throw new NotImplementedException();
+        return matrixWithSameSize().loop((r, c) -> alcComp(c, r) / det);
     }
 
     @Override
@@ -77,7 +76,8 @@ public class JavaSquareMatrix extends JavaMatrix implements SquareMatrix {
     }
 
     private double alcComp(int c, int r) { // TODO
-        return get(c, r);
+        //return get(c, r);
+        throw new NotImplementedException();
     }
 
     @Override
