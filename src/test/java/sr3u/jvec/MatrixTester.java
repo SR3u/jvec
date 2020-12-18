@@ -28,7 +28,7 @@ public class MatrixTester {
         B = math.mat(SIZE, b);
 
         Ad = math.mat().diag(SIZE.rows, a);
-        Bd = math.mat().diag(SIZE.rows, b).invertColumns();
+        Bd = math.mat().diag(SIZE.rows, b).invertColumns().t().t().t();
     }
 
     @Test

@@ -12,4 +12,8 @@ public interface CalculatedVector extends Vector {
         return this;
     }
 
+    default Matrix diagonal() {
+        return math().matrices().diagonal(calculate().data());
+    }
+
 }

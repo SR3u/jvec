@@ -13,6 +13,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.function.Supplier;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 public abstract class JavaMatrix implements Matrix {
 
@@ -64,6 +65,12 @@ public abstract class JavaMatrix implements Matrix {
 
     protected abstract JavaMatrix copyWithAccessor(Accessor accessor);
 
+    protected abstract JavaMatrix matrixWithSameSize();
+
+    protected abstract double getRaw(int r, int c);
+
+    protected abstract void setRaw(int r, int c, double value);
+
     protected double get(Index index) {
         return get(index.row, index.column);
     }
@@ -82,9 +89,9 @@ public abstract class JavaMatrix implements Matrix {
         setRaw(index.row, index.column, value);
     }
 
-    protected abstract double getRaw(int r, int c);
-
-    protected abstract void setRaw(int r, int c, double value);
+    protected Accessor accessor() {
+        return accessor;
+    }
 
     public static final class Index {
         public final int row;
@@ -170,14 +177,14 @@ public abstract class JavaMatrix implements Matrix {
     }
 
     @Override
-    public Matrix div(Matrix b) {
+    public Matrix divScalar(Matrix b) {
         assertSizesEqual(b);
         JavaMatrix B = math().convert(b);
         return resultMatrix(this, B)
                 .loop((r, c) -> get(r, c) / B.get(r, c));
     }
 
-    private static JavaMatrix resultMatrix(JavaMatrix a, JavaMatrix b) {
+    protected static JavaMatrix resultMatrix(JavaMatrix a, JavaMatrix b) {
         return a.matrixWithSameSize();
     }
 
@@ -186,19 +193,20 @@ public abstract class JavaMatrix implements Matrix {
         return math().matrix(size, new double[size.size()]);
     }
 
-    protected abstract JavaMatrix matrixWithSameSize();
-
     protected void loop(Op op) {
-        IntStream.range(0, size().rows())
-                .forEach(r -> IntStream.range(0, size().columns())
-                        .forEach(c -> op.accept(r, c)));
+        indexStream().forEach(i -> op.accept(i.row, i.column));
     }
 
-    private Matrix loop(Cop op) {
-        IntStream.range(0, size().rows())
-                .forEach(r -> IntStream.range(0, size().columns())
-                        .forEach(c -> set(r, c, op.apply(r, c))));
+    protected Matrix loop(Cop op) {
+        indexStream().forEach(i -> set(i.row, i.column, op.apply(i.row, i.column)));
         return this;
+    }
+
+    protected Stream<Index> indexStream() {
+        return IntStream.range(0, size().rows())
+                .boxed()
+                .flatMap(r -> IntStream.range(0, size().columns())
+                        .mapToObj(c -> new Index(r, c)));
     }
 
     @Override

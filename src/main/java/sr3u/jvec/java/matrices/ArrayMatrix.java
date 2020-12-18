@@ -28,7 +28,7 @@ public class ArrayMatrix extends JavaMatrix {
 
     public double[][] data2d() {
         double[][] result = new double[size().rows()][size().columns()];
-        loop((r, c) -> result[r][c] = get(r, c));
+        loop((Op) (r, c) -> result[r][c] = get(r, c));
         return result;
     }
 

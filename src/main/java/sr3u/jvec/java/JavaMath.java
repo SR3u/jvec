@@ -1,6 +1,7 @@
 package sr3u.jvec.java;
 
 import sr3u.jvec.JMath;
+import sr3u.jvec.Matrices;
 import sr3u.jvec.Matrix;
 import sr3u.jvec.Vector;
 import sr3u.jvec.java.matrices.ArrayMatrix;
@@ -9,9 +10,15 @@ import sr3u.jvec.java.vectors.SingleVector;
 
 public class JavaMath extends JMath {
     private static final ThreadLocal<JavaMath> INSTANCE = ThreadLocal.withInitial(JavaMath::new);
+    private Matrices matrices = new JavaMatrices(this);
 
     public static JavaMath get() {
         return INSTANCE.get();
+    }
+
+    @Override
+    public Matrices matrices() {
+        return matrices;
     }
 
     private JavaMath() {

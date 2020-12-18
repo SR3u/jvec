@@ -5,7 +5,6 @@ import java.util.stream.IntStream;
 public abstract class JMath {
 
     Vectors vectors = new Vectors(this);
-    Matrices matrices = new Matrices(this);
 
     static JMath get() {
         return MathHolder.get();
@@ -31,9 +30,7 @@ public abstract class JMath {
         return matrices();
     }
 
-    public Matrices matrices() {
-        return matrices;
-    }
+    public abstract Matrices matrices();
 
     public abstract Vector vector(double... array);
 
@@ -108,7 +105,7 @@ public abstract class JMath {
     }
 
     public Matrix div(double a, Matrix b) {
-        return matrix(b.size(), a).div(b);
+        return matrix(b.size(), a).divScalar(b);
     }
 
     public Vector vector(Matrix.Size size) {

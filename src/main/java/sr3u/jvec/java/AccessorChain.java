@@ -6,7 +6,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 class AccessorChain implements JavaMatrix.Accessor {
 
@@ -17,7 +19,7 @@ class AccessorChain implements JavaMatrix.Accessor {
     }
 
     public static AccessorChain of(JavaMatrix.Accessor... accessors) {
-        return new AccessorChain(Arrays.stream(accessors).collect(Collectors.toList())).unwrap();
+        return of(Arrays.stream(accessors).collect(Collectors.toList()));
     }
 
     public static AccessorChain of(Collection<JavaMatrix.Accessor> accessors) {
@@ -25,25 +27,15 @@ class AccessorChain implements JavaMatrix.Accessor {
     }
 
     private AccessorChain unwrap() {
-        /*List<JavaMatrix.Accessor> accessorList = accessors;
-        boolean repaced = true;
-        while (repaced) {
-            List<JavaMatrix.Accessor> newAccessorList = new ArrayList<>();
-            repaced = false;
-            if (accessors.size() > 1) {
-                for (int i = 0; i < accessors.size() - 1; i++) {
-                    JavaMatrix.Accessor current = accessors.get(i);
-                    JavaMatrix.Accessor next = accessors.get(i + 1);
-                    if (JavaMatrix.ACCESSOR_TRANSPOSED.equals(current) && JavaMatrix.ACCESSOR_TRANSPOSED.equals(next)) {
-                        i += 1;
-                    } else {
-                        accessorList.add(current);
+        accessors = accessors.stream()
+                .flatMap(accessor -> {
+                    if (accessor instanceof AccessorChain) {
+                        return ((AccessorChain) accessor).unwrap().accessors.stream();
                     }
-                }
-            }
-            accessorList = newAccessorList;
-        }
-        accessors = accessorList;*/
+                    return Stream.of(accessor);
+                })
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
         return this;
     }
 

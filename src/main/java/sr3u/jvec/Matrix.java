@@ -18,7 +18,11 @@ public interface Matrix {
 
     Matrix mulScalar(Matrix b);
 
-    Matrix div(Matrix b);
+    default Matrix div(SquareMatrix b) {
+        return mul(b.inverse());
+    }
+
+    Matrix divScalar(Matrix b);
 
 
     default Matrix add(double b) {
@@ -34,7 +38,7 @@ public interface Matrix {
     }
 
     default Matrix div(double b) {
-        return div(math().mat(size(), b));
+        return divScalar(math().mat(size(), b));
     }
 
     default Matrix t() {
