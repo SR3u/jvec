@@ -3,7 +3,6 @@ package sr3u.jvec.java;
 import sr3u.jvec.CalculatedMatrix;
 import sr3u.jvec.SquareMatrix;
 import sr3u.jvec.java.matrices.Cop;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public class JavaSquareMatrix extends JavaMatrix implements SquareMatrix {
 
@@ -64,7 +63,6 @@ public class JavaSquareMatrix extends JavaMatrix implements SquareMatrix {
                 tmp = -tmpM.get(i, k) / tmpM.get(k, k);
                 for (int j = 0; j < N; j++) {
                     tmpM.set(i, j, tmpM.get(k, j) * tmp);
-                    // a[i][j] += a[k][j] * tmp;
                 }
             }
         }
@@ -76,9 +74,29 @@ public class JavaSquareMatrix extends JavaMatrix implements SquareMatrix {
     }
 
     private double alcComp(int c, int r) { // TODO
-        //return get(c, r);
-        throw new NotImplementedException();
+        return algMinor(c, r).determinant() * Math.pow(-1, c + r);
     }
+
+    private SquareMatrix algMinor(int column, int row) {
+        int size = size().rows() - 1;
+        int arraySize = (size) * (size().columns() - 1);
+        JavaSquareMatrix m = new JavaSquareMatrix(math().convert(
+                math().matrices().square(size, new double[arraySize])));
+        loop((r, c) -> {
+            if (r != row && c != column) {
+                double v = get(r, c);
+                if (r > row) {
+                    r -= 1;
+                }
+                if (c > column) {
+                    c -= 1;
+                }
+                m.set(r, c, v);
+            }
+        });
+        return m;
+    }
+
 
     @Override
     protected JavaSquareMatrix loop(Cop op) {
