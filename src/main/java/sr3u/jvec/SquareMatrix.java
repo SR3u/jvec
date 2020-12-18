@@ -10,4 +10,8 @@ public interface SquareMatrix extends Matrix {
         return determinant();
     }
 
+    SquareMatrix add(SquareMatrix b);
+
+    SquareMatrix sub(SquareMatrix b);
+
 }

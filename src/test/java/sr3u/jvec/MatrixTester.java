@@ -5,6 +5,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.Arrays;
+import java.util.Random;
 
 @Ignore
 public class MatrixTester {
@@ -12,6 +13,7 @@ public class MatrixTester {
 
     public static final Matrix.Size SIZE = new Matrix.Size(5, 5);
     private static final double EPSILON = 1e-10;
+    private static final Random RANDOM = new Random();
     private final JMath math;
     private final Matrix A;
     private final Matrix B;
@@ -45,6 +47,25 @@ public class MatrixTester {
     @Test
     public void matrMulMatr() {
         assertAllNonZeroEquals(Ad.mul(Bd), a * b);
+    }
+
+    @Test
+    public void testInverse() {
+        int size = 1;
+        SquareMatrix m = math.matrices().square(size, randomArray(size * size));
+        SquareMatrix im = m.inverse();
+        Matrix res = m.mul(im);
+        SquareMatrix e = math.mat().E(m.size().rows());
+        Assert.assertArrayEquals(res.calculate().data(), e.calculate().data(), EPSILON);
+    }
+
+    private double[] randomArray(int size) {
+        double[] array = new double[size];
+        //populate the array with doubles
+        for (int i = 0; i < array.length; i++) {
+            array[i] = RANDOM.nextDouble();
+        }
+        return array;
     }
 
     private void assertAllEquals(Matrix m, double v) {

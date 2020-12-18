@@ -1,6 +1,7 @@
 package sr3u.jvec.java;
 
 import sr3u.jvec.CalculatedMatrix;
+import sr3u.jvec.Matrix;
 import sr3u.jvec.SquareMatrix;
 import sr3u.jvec.java.matrices.Cop;
 
@@ -71,6 +72,16 @@ public class JavaSquareMatrix extends JavaMatrix implements SquareMatrix {
             d *= tmpM.get(i, i);
         }
         return d;
+    }
+
+    @Override
+    public JavaSquareMatrix add(SquareMatrix b) {
+        return new JavaSquareMatrix(math().convert(add((Matrix) b)));
+    }
+
+    @Override
+    public JavaSquareMatrix sub(SquareMatrix b) {
+        return new JavaSquareMatrix(math().convert(sub((Matrix) b)));
     }
 
     private double alcComp(int c, int r) { // TODO
