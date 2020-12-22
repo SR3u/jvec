@@ -51,4 +51,20 @@ public interface Vector extends Serializable {
 
     boolean equals(Vector other, double epsilon);
 
+    default Matrix matrix() {
+        return asDiagonal();
+    }
+
+    default Matrix asRow() {
+        return math().mat(new Matrix.Size(1, size()), calculate().data());
+    }
+
+    default Matrix asColumn() {
+        return math().mat(new Matrix.Size(size(), 1), calculate().data());
+    }
+
+    default Matrix asDiagonal() {
+        return math().mat().diag(size(), calculate().data());
+    }
+
 }
