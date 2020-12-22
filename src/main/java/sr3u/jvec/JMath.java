@@ -55,7 +55,7 @@ public abstract class JMath {
         return mat(size, IntStream.range(0, size.size()).mapToDouble(i -> fill).toArray());
     }
 
-    public Matrix mat(Matrix.Size size, double[] data) {
+    public Matrix mat(Matrix.Size size, double... data) {
         return matrix(size, data);
     }
 
@@ -113,5 +113,13 @@ public abstract class JMath {
 
     public Vector vector(Matrix.Size size) {
         return vector(size.rows(), size.columns());
+    }
+
+    public boolean matrixEquals(Matrix a, Matrix b) {
+        return a.equals(b, 1e-12);
+    }
+
+    public boolean vectorEquals(Vector a, Vector b) {
+        return a.equals(b, 1e-12);
     }
 }

@@ -1,5 +1,7 @@
 package sr3u.jvec;
 
+import java.util.Objects;
+
 public interface Matrix {
 
     JMath math();
@@ -64,6 +66,8 @@ public interface Matrix {
         }
     }
 
+    boolean equals(Matrix other, double epsilon);
+
     class Size {
         protected final int rows;
         protected final int columns;
@@ -100,6 +104,25 @@ public interface Matrix {
         @Override
         public String toString() {
             return rows + "x" + columns;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) {
+                return true;
+            }
+            if (o instanceof Size) {
+                Size size = (Size) o;
+                return rows() == size.rows() &&
+                        columns() == size.columns();
+            } else {
+                return false;
+            }
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(rows, columns);
         }
     }
 

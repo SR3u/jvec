@@ -10,6 +10,7 @@ import sr3u.jvec.java.matrices.accessors.Transposed;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 import java.util.function.Supplier;
 import java.util.stream.IntStream;
@@ -214,5 +215,27 @@ public abstract class JavaMatrix implements Matrix {
             b.append("\n");
         }
         return b.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o instanceof Matrix) {
+            return math().matrixEquals(this, (Matrix) o);
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(accessor, size);
+    }
+
+    @Override
+    public boolean equals(Matrix other, double epsilon) {
+        return size().equals(other.size()) &&
+                Arrays.equals(other.calculate().data(), calculate().data());
     }
 }

@@ -49,4 +49,6 @@ public interface Vector extends Serializable {
         return Math.sqrt(magnitudeSq());
     }
 
+    boolean equals(Vector other, double epsilon);
+
 }

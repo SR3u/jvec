@@ -34,7 +34,7 @@ public class ArrayMatrix extends JavaMatrix {
 
     @Override
     protected double getRaw(int r, int c) {
-        return data[r * size().rows() + c];
+        return data[r * size().columns() + c];
     }
 
     @Override

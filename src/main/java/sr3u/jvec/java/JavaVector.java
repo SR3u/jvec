@@ -1,7 +1,10 @@
 package sr3u.jvec.java;
 
+import sr3u.jvec.Matrix;
 import sr3u.jvec.Vector;
 import sr3u.jvec.java.vectors.Op;
+
+import java.util.Arrays;
 
 public abstract class JavaVector implements Vector {
 
@@ -79,6 +82,23 @@ public abstract class JavaVector implements Vector {
                 throw new RuntimeException(e);
             }
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o instanceof Vector) {
+            return math().vectorEquals(this, (Vector) o);
+        }
+        return false;
+    }
+
+    @Override
+    public boolean equals(Vector other, double epsilon) {
+        return size() == other.size() &&
+                Arrays.equals(other.calculate().data(), calculate().data());
     }
 
 }

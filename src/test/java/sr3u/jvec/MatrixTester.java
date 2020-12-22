@@ -47,6 +47,18 @@ public class MatrixTester {
         assertAllNonZeroEquals(Ad.mul(Bd), a * b);
     }
 
+    @Test
+    public void matrMulMatr2() {
+        Matrix a = math.mat(new Matrix.Size(3, 2),
+                1, 2, 3, 4, 5, 6);
+        Matrix b = math.mat(new Matrix.Size(2, 4),
+                7, 8, 9, 0, 1, 2, 3, 4);
+        Matrix expected = math.mat(new Matrix.Size(3, 4),
+                9, 12, 15, 8, 25, 32, 39, 16, 41, 52, 63, 24);
+        Matrix actual = a.mul(b);
+        Assert.assertEquals(expected, actual);
+    }
+
     private void assertAllEquals(Matrix m, double v) {
         Assert.assertTrue(Arrays.stream(m.calculate().data())
                 .allMatch(d -> doubleEquals(d, v)));
