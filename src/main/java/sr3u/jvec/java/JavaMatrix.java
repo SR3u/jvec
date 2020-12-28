@@ -87,6 +87,10 @@ public abstract class JavaMatrix implements Matrix {
 
     protected abstract void setRaw(int r, int c, double value);
 
+    public Accessor getAccessor() {
+        return accessor;
+    }
+
     public static final class Index {
         public final int row;
         public final int column;
