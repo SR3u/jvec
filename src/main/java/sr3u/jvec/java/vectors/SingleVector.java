@@ -27,9 +27,9 @@ public class SingleVector extends JavaVector {
 
     @Override
     public JavaVector newInstance(JavaVector a, JavaVector b, int size, Op op) {
-        if(a instanceof SingleVector && b instanceof SingleVector) {
+        if (a instanceof SingleVector && b instanceof SingleVector) {
             return new SingleVector(size, op.apply(0)); // As all items are equal, we are free to take only the first one
-        } else  {
+        } else {
             return new ArrayVector(size, op);
         }
     }
