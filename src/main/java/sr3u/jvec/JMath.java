@@ -7,7 +7,7 @@ public abstract class JMath {
     Vectors vectors = new Vectors(this);
     Matrices matrices = new Matrices(this);
 
-    static JMath get() {
+    public static JMath get() {
         return MathHolder.get();
     }
 

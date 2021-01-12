@@ -80,6 +80,18 @@ public interface Matrix {
             this((int) rowAndColumn[0], (int) rowAndColumn[1]);
         }
 
+        public Size(double rowAndColumn) {
+            this((int) rowAndColumn, (int) rowAndColumn);
+        }
+
+        public Size(int... rowAndColumn) {
+            this(rowAndColumn[0], rowAndColumn[1]);
+        }
+
+        public Size(int rowAndColumn) {
+            this(rowAndColumn, rowAndColumn);
+        }
+
         public Size(Vector rowAndColumn) {
             this(rowAndColumn.calculate().data());
         }

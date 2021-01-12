@@ -195,14 +195,14 @@ public abstract class JavaMatrix implements Matrix {
 
     protected void loop(Op op) {
         IntStream.range(0, size().rows())
+                .parallel()
                 .forEach(r -> IntStream.range(0, size().columns())
+                        .parallel()
                         .forEach(c -> op.accept(r, c)));
     }
 
     private Matrix loop(Cop op) {
-        IntStream.range(0, size().rows())
-                .forEach(r -> IntStream.range(0, size().columns())
-                        .forEach(c -> set(r, c, op.apply(r, c))));
+        loop((Op) (r, c) -> set(r, c, op.apply(r, c)));
         return this;
     }
 
