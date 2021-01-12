@@ -12,6 +12,7 @@ import java.util.Date;
 import java.util.Random;
 
 /*
+ * Benchmarking utility for main matrix operations.
  *
  * Results on my machine (Java implementation, AMD Ryzen 7 3800X, 8 cores 16 threads, 3.9 GHz, boost to 4.2 GHz):
  *
