@@ -108,7 +108,7 @@ public abstract class JMath {
     }
 
     public Matrix div(double a, Matrix b) {
-        return matrix(b.size(), a).div(b);
+        return matrix(b.size(), a).divScalar(b);
     }
 
     public Vector vector(Matrix.Size size) {

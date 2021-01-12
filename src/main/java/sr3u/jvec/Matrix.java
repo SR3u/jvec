@@ -20,7 +20,15 @@ public interface Matrix {
 
     Matrix mulScalar(Matrix b);
 
-    Matrix div(Matrix b);
+    Matrix divScalar(Matrix b);
+
+    default Matrix hadamardProduct(Matrix b) {
+        return mulScalar(b);
+    }
+
+    default Matrix hadamardDiv(Matrix b) {
+        return divScalar(b);
+    }
 
 
     default Matrix add(double b) {
@@ -36,7 +44,7 @@ public interface Matrix {
     }
 
     default Matrix div(double b) {
-        return div(math().mat(size(), b));
+        return divScalar(math().mat(size(), b));
     }
 
     default Matrix t() {

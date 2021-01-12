@@ -175,7 +175,7 @@ public abstract class JavaMatrix implements Matrix {
     }
 
     @Override
-    public Matrix div(Matrix b) {
+    public Matrix divScalar(Matrix b) {
         assertSizesEqual(b);
         JavaMatrix B = math().convert(b);
         return resultMatrix(this, B)
@@ -194,11 +194,21 @@ public abstract class JavaMatrix implements Matrix {
     protected abstract JavaMatrix matrixWithSameSize();
 
     protected void loop(Op op) {
-        IntStream.range(0, size().rows())
+        IntStream.range(0, size().rows()) // @Test multiply 39.103 ms
                 .parallel()
                 .forEach(r -> IntStream.range(0, size().columns())
                         .parallel()
                         .forEach(c -> op.accept(r, c)));
+        /*IntStream.range(0, size().rows()) // @Test multiply 142.259 ms
+                .boxed()
+                .flatMap(r -> IntStream.range(0, size().columns())
+                        .mapToObj(c -> new Index(r, c)))
+                .parallel()
+                .forEach(i -> op.accept(i.row, i.column));*/
+        /*IntStream.range(0, size().rows()) // @Test multiply 172.898 ms
+                .parallel()
+                .forEach(r -> IntStream.range(0, size().columns())
+                        .forEach(c -> op.accept(r, c)));*/
     }
 
     private Matrix loop(Cop op) {
