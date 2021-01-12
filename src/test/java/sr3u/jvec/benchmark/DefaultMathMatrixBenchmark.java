@@ -38,9 +38,9 @@ public class DefaultMathMatrixBenchmark {
     @BeforeClass
     public static void machineInfo() throws ClassNotFoundException {
         System.out.println(getMethodName(BeforeClass.class));
-        System.out.println("\tCPU: " + System.getProperty("os.arch") + " cores (threads): " + Runtime.getRuntime().availableProcessors());
-        System.out.println("\tOS: " + System.getProperty("os.name") + " version " + System.getProperty("os.version"));
-        System.out.println("\tJava: " + System.getProperty("java.version") + " " + System.getProperty("java.vendor"));
+        System.out.println("    CPU: " + System.getProperty("os.arch") + " cores (threads): " + Runtime.getRuntime().availableProcessors());
+        System.out.println("    OS: " + System.getProperty("os.name") + " version " + System.getProperty("os.version"));
+        System.out.println("    Java: " + System.getProperty("java.version") + " " + System.getProperty("java.vendor"));
     }
 
     @Test
