@@ -45,6 +45,10 @@ public interface Vector extends Serializable {
         return div(math().vector(size(), b));
     }
 
+    default double dot(Vector b) {
+        return mul(b).sum();
+    }
+
     default double magnitude() {
         return Math.sqrt(magnitudeSq());
     }
