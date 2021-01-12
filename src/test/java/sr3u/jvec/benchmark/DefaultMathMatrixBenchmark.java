@@ -9,8 +9,20 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.Random;
 
+/*
+*
+* Results on my machine (Java implementation, AMD Ryzen 7 3800X, 8 cores 16 threads, 3.9 GHz, boost to 4.2 GHz):
+*
+*    @Test add 1.39 ms
+*    @Test sub 1.74 ms
+*    @Test hadamardProduct 1.317 ms
+*    @Test multiply 39.955 ms
+*    @Test transpose 0.001 ms
+*
+*/
+
 @Ignore
-public class DefaultMathBenchmark {
+public class DefaultMathMatrixBenchmark {
     private static final Matrix.Size SIZE = new Matrix.Size(500);
     private static final int TIMES = 1000;
     private static final JMath math = JMath.get();
