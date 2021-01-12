@@ -21,49 +21,53 @@ public abstract class JavaVector implements Vector {
     @Override
     public JavaVector add(Vector b) {
         JavaVector B = math().convert(b);
-        return newInstance(resultVectorSize(this, B), (i) -> this.get(i) + B.get(i));
+        return newInstance(this, B, resultVectorSize(this, B), (i) -> this.get(i) + B.get(i));
     }
 
     @Override
     public JavaVector sub(Vector b) {
         JavaVector B = math().convert(b);
-        return newInstance(resultVectorSize(this, B), (i) -> this.get(i) - B.get(i));
+        return newInstance(this, B, resultVectorSize(this, B), (i) -> this.get(i) - B.get(i));
     }
 
     @Override
     public JavaVector sub(double b) {
-        return newInstance(resultVectorSize(this), (i) -> this.get(i) - b);
+        return newInstance((i) -> this.get(i) - b);
     }
 
 
     @Override
     public JavaVector mul(Vector b) {
         JavaVector B = math().convert(b);
-        return newInstance(resultVectorSize(this, B), (i) -> this.get(i) * B.get(i));
+        return newInstance(this, B, resultVectorSize(this, B), (i) -> this.get(i) * B.get(i));
     }
 
     @Override
     public JavaVector mul(double b) {
-        return newInstance(resultVectorSize(this), (i) -> this.get(i) * b);
+        return newInstance((i) -> this.get(i) * b);
     }
 
     @Override
     public JavaVector div(Vector b) {
         JavaVector B = math().convert(b);
-        return newInstance(resultVectorSize(this, B), (i) -> this.get(i) / B.get(i));
+        return newInstance(this, B, resultVectorSize(this, B), (i) -> this.get(i) / B.get(i));
     }
 
     @Override
     public JavaVector div(double b) {
-        return newInstance(resultVectorSize(this), (i) -> this.get(i) / b);
+        return newInstance((i) -> this.get(i) / b);
     }
 
     @Override
     public JavaVector exp() {
-        return newInstance(resultVectorSize(this), (i) -> Math.exp(this.get(i)));
+        return newInstance((i) -> Math.exp(this.get(i)));
     }
 
-    protected abstract JavaVector newInstance(int size, Op op);
+    private JavaVector newInstance(Op op) {
+        return newInstance(this, this, resultVectorSize(this), op);
+    }
+
+    protected abstract JavaVector newInstance(JavaVector a, JavaVector b, int size, Op op);
 
     static int resultVectorSize(JavaVector a) {
         return a.size();

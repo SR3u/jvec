@@ -60,7 +60,7 @@ public class ArrayVector extends JavaVector implements CalculatedVector {
     }
 
     @Override
-    public ArrayVector newInstance(int size, Op op) {
+    public ArrayVector newInstance(JavaVector a, JavaVector b, int size, Op op) {
         return new ArrayVector(size, op);
     }
 
