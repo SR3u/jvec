@@ -16,14 +16,14 @@ public class ArrayMatrix extends JavaMatrix {
         this.data = data;
     }
 
-    protected ArrayMatrix(Accessor accessor, Size size, double[] data) {
+    protected ArrayMatrix(Accessor accessor, JavaMatrix.JavaSize size, double[] data) {
         super(accessor, size);
         this.data = data;
     }
 
     @Override
     protected ArrayMatrix copyWithAccessor(Accessor accessor) {
-        return new ArrayMatrix(accessor, size(), data);
+        return new ArrayMatrix(accessor, size, data);
     }
 
     public double[][] data2d() {
@@ -34,12 +34,12 @@ public class ArrayMatrix extends JavaMatrix {
 
     @Override
     protected double getRaw(int r, int c) {
-        return data[r * size().columns() + c];
+        return data[r * size.raw.columns() + c];
     }
 
     @Override
     public void setRaw(int r, int c, double value) {
-        data[r * size().columns() + c] = value;
+        data[r * size.raw.columns() + c] = value;
     }
 
     @Override
@@ -49,7 +49,8 @@ public class ArrayMatrix extends JavaMatrix {
 
     @Override
     public ArrayMatrix copy() {
-        return new ArrayMatrix(size(), data);
+        CalculatedMatrix calculate = calculate();
+        return new ArrayMatrix(calculate.size(), calculate.data());
     }
 
     @Override

@@ -26,9 +26,14 @@ public abstract class JavaMatrix implements Matrix {
 
 
     private final Accessor accessor;
-    private final JavaSize size;
+    protected final JavaSize size;
 
     protected JavaMatrix(Accessor accessor, Size size) {
+        this.accessor = accessor;
+        this.size = new JavaSize(accessor, size);
+    }
+
+    protected JavaMatrix(Accessor accessor, JavaSize size) {
         this.accessor = accessor;
         this.size = new JavaSize(accessor, size);
     }
@@ -124,9 +129,12 @@ public abstract class JavaMatrix implements Matrix {
         Size size(int row, int column);
     }
 
-    private static class JavaSize extends Size {
+    protected static class JavaSize extends Size {
+        public final Size raw;
+
         public JavaSize(Accessor accessor, Size size) {
             super(getSize(accessor, size));
+            raw = size;
         }
 
         private static Size getSize(Accessor accessor, Size size) {
@@ -159,7 +167,7 @@ public abstract class JavaMatrix implements Matrix {
     public Matrix mul(Matrix b) {
         assertSizesForMul(b);
         JavaMatrix B = math().convert(b);
-        int columns = size().columns();
+        int columns = size.columns();
         return resultMatrixMul(B)
                 .loop((Cop) (r, c) -> IntStream.range(0, columns)
                         .mapToDouble(i -> get(r, i) * B.get(i, c))
@@ -187,27 +195,27 @@ public abstract class JavaMatrix implements Matrix {
     }
 
     protected JavaMatrix resultMatrixMul(JavaMatrix other) {
-        Size size = new Size(this.size().rows(), other.size().columns());
+        Size size = new Size(this.size.rows(), other.size.columns());
         return math().matrix(size, new double[size.size()]);
     }
 
     protected abstract JavaMatrix matrixWithSameSize();
 
     protected void loop(Op op) {
-        IntStream.range(0, size().rows()) // @Test multiply 39.103 ms
+        IntStream.range(0, size.rows()) // @Test multiply 39.103 ms
                 .parallel()
-                .forEach(r -> IntStream.range(0, size().columns())
+                .forEach(r -> IntStream.range(0, size.columns())
                         .parallel()
                         .forEach(c -> op.accept(r, c)));
-        /*IntStream.range(0, size().rows()) // @Test multiply 142.259 ms
+        /*IntStream.range(0, size.rows()) // @Test multiply 142.259 ms
                 .boxed()
-                .flatMap(r -> IntStream.range(0, size().columns())
+                .flatMap(r -> IntStream.range(0, size.columns())
                         .mapToObj(c -> new Index(r, c)))
                 .parallel()
                 .forEach(i -> op.accept(i.row, i.column));*/
-        /*IntStream.range(0, size().rows()) // @Test multiply 172.898 ms
+        /*IntStream.range(0, size.rows()) // @Test multiply 172.898 ms
                 .parallel()
-                .forEach(r -> IntStream.range(0, size().columns())
+                .forEach(r -> IntStream.range(0, size.columns())
                         .forEach(c -> op.accept(r, c)));*/
     }
 
@@ -218,12 +226,12 @@ public abstract class JavaMatrix implements Matrix {
 
     @Override
     public String toString() {
-        if (size().columns() > 10 || size().rows() > 10) {
+        if (size.columns() > 10 || size.rows() > 10) {
             return super.toString();
         }
-        StringBuilder b = new StringBuilder("Matrix " + size() + ": \n");
-        for (int i = 0; i < size().rows(); i++) {
-            for (int j = 0; j < size().columns(); j++) {
+        StringBuilder b = new StringBuilder("Matrix " + size + ": \n");
+        for (int i = 0; i < size.rows(); i++) {
+            for (int j = 0; j < size.columns(); j++) {
                 b.append(get(i, j)).append("\t");
             }
             b.append("\n");
@@ -249,7 +257,7 @@ public abstract class JavaMatrix implements Matrix {
 
     @Override
     public boolean equals(Matrix other, double epsilon) {
-        return size().equals(other.size()) &&
+        return size.equals(other.size()) &&
                 Arrays.equals(other.calculate().data(), calculate().data());
     }
 }
