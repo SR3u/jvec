@@ -16,7 +16,7 @@ import java.util.Random;
  * Results on my machine (Java implementation, AMD Ryzen 7 3800X, 8 cores 16 threads, 3.9 GHz, boost to 4.2 GHz):
  *
  *    @BeforeClass machineInfo
- *      CPU: amd64 cores (threads): 16
+ *      CPU: amd64, 16 cores (threads)
  *      OS: Windows 10 version 10.0
  *      Java: 15.0.1 Oracle Corporation
  *    @Test add 1.39 ms
@@ -38,7 +38,7 @@ public class DefaultMathMatrixBenchmark {
     @BeforeClass
     public static void machineInfo() throws ClassNotFoundException {
         System.out.println(getMethodName(BeforeClass.class));
-        System.out.println("    CPU: " + System.getProperty("os.arch") + " cores (threads): " + Runtime.getRuntime().availableProcessors());
+        System.out.println("    CPU: " + System.getProperty("os.arch") + ", " + Runtime.getRuntime().availableProcessors() + " cores (threads)");
         System.out.println("    OS: " + System.getProperty("os.name") + " version " + System.getProperty("os.version"));
         System.out.println("    Java: " + System.getProperty("java.version") + " " + System.getProperty("java.vendor"));
     }
