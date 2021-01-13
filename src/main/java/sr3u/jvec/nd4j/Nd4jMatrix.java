@@ -89,12 +89,12 @@ public class Nd4jMatrix implements Matrix, CalculatedMatrix {
 
     @Override
     public Matrix transposed() {
-        return new Nd4jMatrix(matrix.add(matrix.transpose()));
+        return new Nd4jMatrix(matrix.transpose());
     }
 
     @Override
     public Matrix invertRows() {
-        return null;
+        return JavaMath.get().mat(size(), data()).invertRows(); // TODO Implement using ND4J
     }
 
     @Override
