@@ -1,6 +1,7 @@
 package sr3u.jvec;
 
 import sr3u.jvec.java.JavaMath;
+import sr3u.jvec.nd4j.Nd4jMath;
 
 public class MathHolder {
 
@@ -11,6 +12,14 @@ public class MathHolder {
     }
 
     private static JMath create() {
+        try {
+            Nd4jMath nd4jMath = Nd4jMath.get();
+            if (nd4jMath != null) {
+                return nd4jMath;
+            }
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
         return JavaMath.get();
     }
 
