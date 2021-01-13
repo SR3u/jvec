@@ -61,6 +61,8 @@ public interface Matrix {
 
     Matrix invertColumns();
 
+    Matrix exp();
+
     default void assertSizesForMul(Matrix other) {
         if (this.size().columns() != other.size().rows()) {
             throw new IllegalArgumentException("Invalid matrix sizes for multiplication " + this.size() + " * " + other.size());

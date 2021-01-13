@@ -183,6 +183,12 @@ public abstract class JavaMatrix implements Matrix {
     }
 
     @Override
+    public Matrix exp() {
+        return matrixWithSameSize()
+                .loop((Cop) (r, c) -> Math.exp(get(r, c)));
+    }
+
+    @Override
     public Matrix divScalar(Matrix b) {
         assertSizesEqual(b);
         JavaMatrix B = math().convert(b);

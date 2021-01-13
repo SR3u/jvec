@@ -2,6 +2,7 @@ package sr3u.jvec.nd4j;
 
 import org.nd4j.linalg.api.ndarray.INDArray;
 import org.nd4j.linalg.factory.Nd4j;
+import org.nd4j.linalg.ops.transforms.Transforms;
 import sr3u.jvec.CalculatedMatrix;
 import sr3u.jvec.Matrix;
 import sr3u.jvec.java.JavaMath;
@@ -100,6 +101,11 @@ public class Nd4jMatrix implements Matrix, CalculatedMatrix {
     @Override
     public Matrix invertColumns() {
         return JavaMath.get().mat(size(), data()).invertColumns(); // TODO Implement using ND4J
+    }
+
+    @Override
+    public Matrix exp() {
+        return new Nd4jMatrix(Transforms.exp(matrix));
     }
 
     @Override
