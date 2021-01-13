@@ -78,13 +78,13 @@ public class Nd4jMatrix implements Matrix, CalculatedMatrix {
     @Override
     public Matrix mulScalar(Matrix b) {
         Nd4jMatrix B = math().convert(b);
-        return new Nd4jMatrix(matrix.muli(B.matrix));
+        return new Nd4jMatrix(matrix.mul(B.matrix));
     }
 
     @Override
     public Matrix divScalar(Matrix b) {
         Nd4jMatrix B = math().convert(b);
-        return new Nd4jMatrix(matrix.divi(B.matrix));
+        return new Nd4jMatrix(matrix.div(B.matrix));
     }
 
     @Override
